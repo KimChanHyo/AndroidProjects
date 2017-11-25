@@ -25,12 +25,13 @@ public class MainActivity extends AppCompatActivity {
     File musicDir;
     File files[] = {};
 
-    private String m_string[];
-    private ArrayList<String> m_arList;
-    private ArrayAdapter<String> m_arAdapter;
-    private ListView m_musicList;
+    static public String sMusicDir;
+    static public ArrayList<String> m_arList;
+    static private ArrayAdapter<String> m_arAdapter;
+    static private ListView m_musicList;
+    static public int pos;
 
-    static final String TAG = "LogMessage";
+    static final String TAG = "kchDebug : MainActivity";
     public final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
 
     @Override
@@ -67,9 +68,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent in = new Intent(getApplicationContext(), PlayActivity.class);
-                in.putExtra("musicDir", musicDir.getAbsolutePath());
-                in.putExtra("fileNames", m_string);
-                in.putExtra("pos", position);
+                pos = position;
                 startActivity(in);
             }
         });
@@ -101,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
     // set m_arList, m_arAdapter, m_musicList
     public void prepareAccess() {
         musicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+        sMusicDir = musicDir.getAbsolutePath();
         // File 클래스에 정의된 메소드를 이용하면 디렉토리 여부, 이름, 절대경로를 알아낼 수 있다
         // isDirectory() 메소드: File 객체가 디렉토리이면 true
         // getName(): File 객체가 나타내는 디렉토리 혹은 파일의 이름 반환
@@ -117,11 +117,9 @@ public class MainActivity extends AppCompatActivity {
                 if(num == 0)
                     Log.i(TAG, "there is no files");
 
-                m_string = new String[num];
                 for(int i = 0 ; i < num ; ++i) {
                     m_arList.add(files[i].getName());
-                    m_string[i] = files[i].getName();
-                    Log.i(TAG, "file " + (i + 1) + m_string[i]);
+                    Log.i(TAG, "file " + (i + 1) + m_arList.get(i));
                 }
                 m_arAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, m_arList);
                 m_musicList.setAdapter(m_arAdapter);

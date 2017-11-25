@@ -1,6 +1,9 @@
 package kr.ac.koreatech.swkang.ch12fgservice;
 
-import android.app.*;
+
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
@@ -27,7 +30,8 @@ public class MusicService extends Service {
         // 1-1. Intent 객체 생성 - MainActivity 클래스를 실행하기 위한 Intent 객체
         Intent intent = new Intent(this, MainActivity.class);
         // 1-2. Intent 객체를 이용하여 PendingIntent 객체를 생성 - Activity를 실행하기 위한 PendingIntent
-        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pIntent = PendingIntent.getActivity(this, 0,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // 1-3. Notification 객체 생성
         Notification noti = new Notification.Builder(this)
@@ -35,6 +39,7 @@ public class MusicService extends Service {
                 .setContentText("Service is running... start an activity")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(pIntent)
+                .setOngoing(true)
                 .build();
 
         // 2. foregound service 설정 - startForeground() 메소드 호출, 위에서 생성한 nofication 객체 넘겨줌

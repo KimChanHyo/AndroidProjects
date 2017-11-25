@@ -13,7 +13,7 @@
         android:layout_margin="10dp"
         android:elevation="0dp"
         android:onClick="onBtnClicked"
-        app:srcCompat="?attr/actionModeCloseDrawable" />
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
     <TextView
         android:id="@+id/musicName"
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onBtnClicked"
-            app:srcCompat="@android:drawable/ic_media_play" />
+            app:srcCompat="@android:drawable/ic_media_pause" />
 
         <ImageButton
             android:id="@+id/nextMusic"
