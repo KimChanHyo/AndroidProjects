@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BusinessCard</string>
+    <string name="name">Kim Chan Hyo</string>
+    <string name="departement">Computer Science and Engineering</string>
+    <string name="phoneNumber">010-7401-0181</string>
+    <string name="eMail">bvba@koreatech.ac.kr</string>
+    <string name="location">4공학관 B동 318호</string>
+    <string name="image">image</string>
+</resources>

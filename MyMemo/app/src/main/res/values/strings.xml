@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">My Memo</string>
+    <string name="app_name_memo">Memo Text</string>
+    <string name="app_name_write">MemoWriteActivity</string>
+</resources>

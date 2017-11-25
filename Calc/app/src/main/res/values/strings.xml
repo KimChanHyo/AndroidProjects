@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Calculator</string>
+
+    // hint
+    <string name="inputNumHint">Input Number</string>
+
+    // button name
+    <string name="Clear">Clear</string>
+    <string name="Add">Add</string>
+    <string name="Subtract">Subtract</string>
+    <string name="Multiply">Multiply</string>
+    <string name="Divide">Divide</string>
+    <string name="Result">Result : </string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Ch13ThreadClass.iml" filepath="$PROJECT_DIR$/Ch13ThreadClass.iml" />
+      <module fileurl="file://D:\AndroidProjects\MobileProgramming_2017-2-master\10_Process_Thread\Ch13ThreadClass\Ch13ThreadClass.iml" filepath="D:\AndroidProjects\MobileProgramming_2017-2-master\10_Process_Thread\Ch13ThreadClass\Ch13ThreadClass.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\AndroidProjects\MobileProgramming_2017-2-master\10_Process_Thread\Ch13ThreadClass\app\app.iml" filepath="D:\AndroidProjects\MobileProgramming_2017-2-master\10_Process_Thread\Ch13ThreadClass\app\app.iml" />
+    </modules>
+  </component>
+</project>

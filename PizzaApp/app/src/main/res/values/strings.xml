@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">PizzaApp</string>
+
+    <string name="selectDough">Select dough</string>
+    <string name="original">original (10,000)</string>
+    <string name="napoli">napoli (15,000)</string>
+    <string name="thin">thin (13,000)</string>
+
+    <string name="selectTopping">Select topping</string>
+    <string name="pepperoni">pepperoni (1,000)</string>
+    <string name="potato">potato (2,000)</string>
+    <string name="cheese">cheese (2,000)</string>
+
+    <string name="total">Total</string>
+
+    <!--    zero == totalPrice's default value-->
+    <string name="zero">0</string>
+</resources>

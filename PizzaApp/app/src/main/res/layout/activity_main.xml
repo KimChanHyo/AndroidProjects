@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:layout_margin="8dp"
+>
+<!--    전체적인 margin == 8dp
+        선택 버튼의 text size == 18sp
+        대표 text view의 text size == 24sp
+                        text color == holo_purple
+        가격을 나타내는 text view의 text size == 36sp
+
+        radio button click == onRadioButtonClicked
+        check box click == onCheckBoxClicked        -->
+
+    <!--    Select Dough        -->
+    <TextView
+            android:id="@+id/selectDough"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+
+            android:text="@string/selectDough"
+            android:textColor="@android:color/holo_purple"
+            android:textSize="24sp" />
+
+    <!--    dough를 선택하는 radio group -->
+    <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--    original radio button    -->
+            <RadioButton
+                android:id="@+id/original"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/original"
+                android:textSize="18sp" />
+
+            <!--    napoli radio button    -->
+            <RadioButton
+                android:id="@+id/napoli"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/napoli"
+                android:textSize="18sp" />
+
+            <!--    thin radio button    -->
+            <RadioButton
+                android:id="@+id/thin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/thin"
+                android:textSize="18sp" />
+        </RadioGroup>
+
+    <!--    Select Topping      -->
+    <TextView
+            android:id="@+id/selectTopping"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+
+            android:text="@string/selectTopping"
+            android:textColor="@android:color/holo_purple"
+            android:textSize="24sp" />
+
+    <!--    pepperoni Check Box -->
+    <CheckBox
+            android:id="@+id/pepperoni"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+
+            android:onClick="onCheckBoxClicked"
+            android:text="@string/pepperoni"
+            android:textSize="18sp" />
+
+    <!--    potato Check Box    -->
+    <CheckBox
+            android:id="@+id/potato"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+
+            android:onClick="onCheckBoxClicked"
+            android:text="@string/potato"
+            android:textSize="18sp" />
+
+    <!--    cheese Check Box    -->
+    <CheckBox
+            android:id="@+id/cheese"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+
+            android:onClick="onCheckBoxClicked"
+            android:text="@string/cheese"
+            android:textSize="18sp" />
+
+    <!--    Total               -->
+    <TextView
+            android:id="@+id/total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+
+            android:text="@string/total"
+            android:textColor="@android:color/holo_purple"
+            android:textSize="24sp" />
+
+    <!--    Total Price         -->
+    <TextView
+            android:id="@+id/totalPrice"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+
+            android:text="@string/zero"
+            android:textAlignment="center"
+            android:textSize="36sp" />
+
+</LinearLayout>

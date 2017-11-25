@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Ch6ButtonEventAnony.iml" filepath="$PROJECT_DIR$/Ch6ButtonEventAnony.iml" />
+      <module fileurl="file://D:\AndroidProjects\MobileProgramming_2017-2-master\02_Event_Handling\Ch6ButtonEventAnony\Ch6ButtonEventAnony.iml" filepath="D:\AndroidProjects\MobileProgramming_2017-2-master\02_Event_Handling\Ch6ButtonEventAnony\Ch6ButtonEventAnony.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\AndroidProjects\MobileProgramming_2017-2-master\02_Event_Handling\Ch6ButtonEventAnony\app\app.iml" filepath="D:\AndroidProjects\MobileProgramming_2017-2-master\02_Event_Handling\Ch6ButtonEventAnony\app\app.iml" />
+    </modules>
+  </component>
+</project>
