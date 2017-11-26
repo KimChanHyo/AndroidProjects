@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     static private ListView m_musicList;
     static public int pos;
 
-    static final String TAG = "kchDebug : MainActivity";
+    static final private String TAG = "kchDebug : MainActivity";
     public final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
 
     @Override

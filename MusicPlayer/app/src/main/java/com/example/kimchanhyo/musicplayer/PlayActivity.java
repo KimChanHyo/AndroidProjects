@@ -19,10 +19,10 @@ import java.util.ArrayList;
  */
 
 public class PlayActivity extends AppCompatActivity {
-    static final String TAG = "kchDebug : PlayActivity";
+    static final private String TAG = "kchDebug : PlayActivity";
 
-    String musicDir;
-    ArrayList<String> fileNames;
+    static String musicDir = MainActivity.sMusicDir;
+    static ArrayList<String> fileNames = MainActivity.m_arList;
     static int pos = -1;
     static boolean isPlaying = true;
 
@@ -47,14 +47,13 @@ public class PlayActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
         if(pos != MainActivity.pos)
             stopService(new Intent(this, MusicService.class));
 
-        musicDir = MainActivity.sMusicDir;
-        fileNames = MainActivity.m_arList;
         pos = MainActivity.pos;
 
         nameTxtView = findViewById(R.id.musicName);
@@ -64,7 +63,7 @@ public class PlayActivity extends AppCompatActivity {
 
         isPlaying = true;
         Intent serviceIntent = new Intent(this, MusicService.class);
-        serviceIntent.putExtra("fullPath", musicDir + "/" + fileNames.get(pos));
+        serviceIntent.putExtra("fullPath", getFullPath());
         startService(serviceIntent);
 
         Intent intent = new Intent(this, MusicService.class);
@@ -98,15 +97,29 @@ public class PlayActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.prevMusic :
+                MainActivity.pos = pos = (pos - 1 + fileNames.size()) % fileNames.size();
+                musicService.prevOrNextMusic(getFullPath());
+                isPlaying = true;
+                setAndDispMusicName();
+                setPlayBtnImage();
                 break;
             case R.id.playMusic :
-                musicService.playOrPauseMusic(musicDir + "/" + fileNames.get(pos));
+                musicService.playOrPauseMusic(getFullPath());
                 isPlaying = musicService.isPlaying();
                 setPlayBtnImage();
                 break;
             case R.id.nextMusic :
+                MainActivity.pos = pos = (pos + 1) % fileNames.size();
+                musicService.prevOrNextMusic(getFullPath());
+                isPlaying = true;
+                setAndDispMusicName();
+                setPlayBtnImage();
                 break;
         }
+    }
+
+    public String getFullPath() {
+        return musicDir + "/" + fileNames.get(pos);
     }
 
     public void setPlayBtnImage() {

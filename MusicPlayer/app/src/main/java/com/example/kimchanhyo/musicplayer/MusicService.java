@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 
 public class MusicService extends Service {
-    static final String TAG = "kchDebug : MusicService";
+    static final private String TAG = "kchDebug : MusicService";
     static final int fgId = 113;
 
     private MediaPlayer mediaPlayer;
@@ -50,26 +50,16 @@ public class MusicService extends Service {
         startForeground(fgId, noti);
 
         startMusic(intent.getStringExtra("fullPath"));
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     public void onDestroy() {
-        mediaPlayer.stop();
-        mediaPlayer.release();
-        mediaPlayer = null;
+        stopMusic();
     }
 
     private void startMusic(String fullPath) {
         if(mediaPlayer.isPlaying() || isPause) return;
-
-        try {
-            mediaPlayer.setDataSource(fullPath);
-            mediaPlayer.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mediaPlayer.start();
-        isPause = false;
+        newMusic(fullPath);
     }
 
     public void playOrPauseMusic(String fullPath) {
@@ -81,6 +71,27 @@ public class MusicService extends Service {
             mediaPlayer.start();
             isPause = false;
         }
+    }
+    public void prevOrNextMusic(String fullPath) {
+
+        stopMusic();
+        newMusic(fullPath);
+    }
+    private void stopMusic() {
+        mediaPlayer.stop();
+        mediaPlayer.release();
+        mediaPlayer = null;
+    }
+    private void newMusic(String fullPath) {
+        mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(fullPath);
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mediaPlayer.start();
+        isPause = false;
     }
 
     public boolean isPlaying() {
