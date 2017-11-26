@@ -1,8 +1,10 @@
 package com.example.kimchanhyo.musicplayer;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Binder;
@@ -29,38 +31,25 @@ public class MusicService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) { return mBinder; }
-
     @Override
     public void onCreate() {
         super.onCreate();
         mediaPlayer = new MediaPlayer();
     }
-
     @Override
     public int onStartCommand(Intent intent, int flags, int started) {
-        Intent notiIn = new Intent(this, PlayActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(this, 0, notiIn, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        Notification noti = new Notification.Builder(this)
-                .setContentTitle("Music Service")
-                .setContentText("Music is playing. Click to start an activity")
-                .setSmallIcon(R.drawable.launcher_image)
-                .setContentIntent(pIntent)
-                .build();
-        startForeground(fgId, noti);
+        startForeground(fgId, buildNoti(intent.getStringExtra("fileName")));
 
         startMusic(intent.getStringExtra("fullPath"));
         return START_NOT_STICKY;
     }
-
+    @Override
     public void onDestroy() {
+        super.onDestroy();
         stopMusic();
     }
 
-    private void startMusic(String fullPath) {
-        if(mediaPlayer.isPlaying() || isPause) return;
-        newMusic(fullPath);
-    }
+
 
     public void playOrPauseMusic(String fullPath) {
         if(mediaPlayer.isPlaying()) {
@@ -73,8 +62,21 @@ public class MusicService extends Service {
         }
     }
     public void prevOrNextMusic(String fullPath) {
-
         stopMusic();
+        newMusic(fullPath);
+    }
+    public void updateNofi(String fileName) {
+        ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE))
+                .notify(fgId, buildNoti(fileName));
+    }
+    public boolean isPlaying() {
+        return mediaPlayer.isPlaying();
+    }
+
+
+
+    private void startMusic(String fullPath) {
+        if(mediaPlayer.isPlaying() || isPause) return;
         newMusic(fullPath);
     }
     private void stopMusic() {
@@ -94,7 +96,14 @@ public class MusicService extends Service {
         isPause = false;
     }
 
-    public boolean isPlaying() {
-        return mediaPlayer.isPlaying();
+    private Notification buildNoti(String fileName) {
+        Intent intent = new Intent(this, PlayActivity.class);
+        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        return new Notification.Builder(this)
+                .setContentTitle("Music Player")
+                .setContentText("Now Playing : " + fileName)
+                .setSmallIcon(R.drawable.launcher_image)
+                .setContentIntent(pIntent)
+                .build();
     }
 }

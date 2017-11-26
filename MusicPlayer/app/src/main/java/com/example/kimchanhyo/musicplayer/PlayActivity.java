@@ -64,6 +64,7 @@ public class PlayActivity extends AppCompatActivity {
         isPlaying = true;
         Intent serviceIntent = new Intent(this, MusicService.class);
         serviceIntent.putExtra("fullPath", getFullPath());
+        serviceIntent.putExtra("fileName", fileNames.get(pos));
         startService(serviceIntent);
 
         Intent intent = new Intent(this, MusicService.class);
@@ -85,36 +86,31 @@ public class PlayActivity extends AppCompatActivity {
         }
     }
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onBackPressed() {
+        super.onBackPressed();
         startActivity(new Intent(this, MainActivity.class));
     }
 
     public void onBtnClicked(View view) {
-        switch(view.getId()) {
-            case R.id.backToList :
-                stopService(new Intent(this, MusicService.class));
-                finish();
-                break;
-            case R.id.prevMusic :
-                MainActivity.pos = pos = (pos - 1 + fileNames.size()) % fileNames.size();
-                musicService.prevOrNextMusic(getFullPath());
-                isPlaying = true;
-                setAndDispMusicName();
-                setPlayBtnImage();
-                break;
-            case R.id.playMusic :
-                musicService.playOrPauseMusic(getFullPath());
-                isPlaying = musicService.isPlaying();
-                setPlayBtnImage();
-                break;
-            case R.id.nextMusic :
-                MainActivity.pos = pos = (pos + 1) % fileNames.size();
-                musicService.prevOrNextMusic(getFullPath());
-                isPlaying = true;
-                setAndDispMusicName();
-                setPlayBtnImage();
-                break;
+        int viewId = view.getId();
+        if(viewId == R.id.backToList) {
+            stopService(new Intent(this, MusicService.class));
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
+        else if(viewId == R.id.playMusic) {
+            musicService.playOrPauseMusic(getFullPath());
+            isPlaying = musicService.isPlaying();
+            setPlayBtnImage();
+        }
+        else {  // prevMusic && nextMusic
+            if(viewId == R.id.prevMusic)    MainActivity.pos = pos = (pos - 1 + fileNames.size()) % fileNames.size();
+            else    MainActivity.pos = pos = (pos + 1) % fileNames.size();
+            musicService.prevOrNextMusic(getFullPath());
+            musicService.updateNofi(fileNames.get(pos));
+            isPlaying = true;
+            setAndDispMusicName();
+            setPlayBtnImage();
         }
     }
 
