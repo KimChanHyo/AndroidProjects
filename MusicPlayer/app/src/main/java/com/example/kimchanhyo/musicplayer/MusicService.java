@@ -5,9 +5,8 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.os.Bundle;
+import android.os.Binder;
 import android.os.IBinder;
-import android.util.Log;
 
 import java.io.IOException;
 
@@ -20,6 +19,14 @@ public class MusicService extends Service {
     static final int fgId = 113;
 
     MediaPlayer mediaPlayer;
+
+    public class musicBinder extends Binder {
+        MusicService getService() { return MusicService.this; }
+    }
+    private final IBinder mBinder = new musicBinder();
+
+    @Override
+    public IBinder onBind(Intent intent) { return mBinder; }
 
     @Override
     public void onCreate() {
@@ -40,7 +47,7 @@ public class MusicService extends Service {
                 .build();
         startForeground(fgId, noti);
 
-        playMusic(intent.getStringExtra("fullPath"));
+        startMusic(intent.getStringExtra("fullPath"));
         return START_STICKY;
     }
 
@@ -50,14 +57,8 @@ public class MusicService extends Service {
         mediaPlayer = null;
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    public void playMusic(String fullPath) {
+    private void startMusic(String fullPath) {
         if(mediaPlayer.isPlaying()) return;
-
         try {
             mediaPlayer.setDataSource(fullPath);
             mediaPlayer.prepare();
@@ -66,5 +67,10 @@ public class MusicService extends Service {
             e.printStackTrace();
         }
         mediaPlayer.start();
+    }
+
+    public void playOrPauseMusic(String fullPath) {
+        if(mediaPlayer.isPlaying()) mediaPlayer.pause();
+        else mediaPlayer.start();
     }
 }
