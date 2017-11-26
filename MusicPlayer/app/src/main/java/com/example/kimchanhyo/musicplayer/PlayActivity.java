@@ -1,6 +1,7 @@
 package com.example.kimchanhyo.musicplayer;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -29,17 +30,18 @@ public class PlayActivity extends AppCompatActivity {
     ImageButton playBtn;
 
     MusicService musicService;
+    boolean mBound = false;
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             MusicService.musicBinder binder = (MusicService.musicBinder)service;
             musicService = binder.getService();
-
+            mBound = true;
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            ;
+            mBound = false;
         }
     };
 
@@ -71,10 +73,21 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        Intent intent = new Intent(this, MusicService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mBound) {
+            unbindService(mConnection);
+            mBound = false;
+        }
     }
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        startActivity(new Intent(this, MainActivity.class));
     }
 
     public void onBtnClicked(View view) {
@@ -82,7 +95,6 @@ public class PlayActivity extends AppCompatActivity {
             case R.id.backToList :
                 stopService(new Intent(this, MusicService.class));
                 finish();
-                startActivity(new Intent(this, MainActivity.class));
                 break;
             case R.id.prevMusic :
                 break;
