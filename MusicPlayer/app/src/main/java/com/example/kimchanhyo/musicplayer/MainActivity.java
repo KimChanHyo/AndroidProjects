@@ -111,15 +111,15 @@ public class MainActivity extends AppCompatActivity {
         try {
             files = musicDir.listFiles();
             if(files == null)
-                Log.i(TAG, "this is not be a directory or IOError was occurred");
+                Log.d(TAG, "this is not be a directory or IOError was occurred");
             else {
                 num = files.length;
                 if(num == 0)
-                    Log.i(TAG, "there is no files");
+                    Log.d(TAG, "there is no files");
 
                 for(int i = 0 ; i < num ; ++i) {
                     m_arList.add(files[i].getName());
-                    Log.i(TAG, "file " + (i + 1) + m_arList.get(i));
+                    Log.d(TAG, "file " + (i + 1) + m_arList.get(i));
                 }
                 m_arAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, m_arList);
                 m_musicList.setAdapter(m_arAdapter);

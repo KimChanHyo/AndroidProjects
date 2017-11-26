@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.io.IOException;
 
@@ -18,7 +19,8 @@ public class MusicService extends Service {
     static final String TAG = "kchDebug : MusicService";
     static final int fgId = 113;
 
-    MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
+    private boolean isPause;
 
     public class musicBinder extends Binder {
         MusicService getService() { return MusicService.this; }
@@ -42,7 +44,7 @@ public class MusicService extends Service {
         Notification noti = new Notification.Builder(this)
                 .setContentTitle("Music Service")
                 .setContentText("Music is playing. Click to start an activity")
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.launcher_image)
                 .setContentIntent(pIntent)
                 .build();
         startForeground(fgId, noti);
@@ -58,19 +60,30 @@ public class MusicService extends Service {
     }
 
     private void startMusic(String fullPath) {
-        if(mediaPlayer.isPlaying()) return;
+        if(mediaPlayer.isPlaying() || isPause) return;
+
         try {
             mediaPlayer.setDataSource(fullPath);
             mediaPlayer.prepare();
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         mediaPlayer.start();
+        isPause = false;
     }
 
     public void playOrPauseMusic(String fullPath) {
-        if(mediaPlayer.isPlaying()) mediaPlayer.pause();
-        else mediaPlayer.start();
+        if(mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            isPause = true;
+        }
+        else {
+            mediaPlayer.start();
+            isPause = false;
+        }
+    }
+
+    public boolean isPlaying() {
+        return mediaPlayer.isPlaying();
     }
 }

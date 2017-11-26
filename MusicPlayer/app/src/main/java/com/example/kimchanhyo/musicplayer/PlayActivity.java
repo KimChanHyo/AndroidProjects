@@ -24,7 +24,7 @@ public class PlayActivity extends AppCompatActivity {
     String musicDir;
     ArrayList<String> fileNames;
     static int pos = -1;
-    boolean isPlaying;
+    static boolean isPlaying = true;
 
     TextView nameTxtView;
     ImageButton playBtn;
@@ -50,32 +50,33 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
-        Log.d(TAG, String.valueOf(pos));
-        Log.d(TAG, String.valueOf(MainActivity.pos));
         if(pos != MainActivity.pos)
             stopService(new Intent(this, MusicService.class));
 
         musicDir = MainActivity.sMusicDir;
         fileNames = MainActivity.m_arList;
         pos = MainActivity.pos;
-        isPlaying = true;
 
         nameTxtView = findViewById(R.id.musicName);
         playBtn = findViewById(R.id.playMusic);
 
         setAndDispMusicName();
 
+        isPlaying = true;
         Intent serviceIntent = new Intent(this, MusicService.class);
         serviceIntent.putExtra("fullPath", musicDir + "/" + fileNames.get(pos));
         startService(serviceIntent);
+
+        Intent intent = new Intent(this, MusicService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Intent intent = new Intent(this, MusicService.class);
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        setPlayBtnImage();
     }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -99,16 +100,8 @@ public class PlayActivity extends AppCompatActivity {
             case R.id.prevMusic :
                 break;
             case R.id.playMusic :
-                if(isPlaying)
-                    ;
-                    // pause;
-                    // mediaPlayer.pause();
-                else {
-
-//                    try { mediaPlayer.prepare(); }
-//                    catch (Exception e) { e.printStackTrace(); }
-//                    mediaPlayer.start();
-                }
+                musicService.playOrPauseMusic(musicDir + "/" + fileNames.get(pos));
+                isPlaying = musicService.isPlaying();
                 setPlayBtnImage();
                 break;
             case R.id.nextMusic :
@@ -120,6 +113,7 @@ public class PlayActivity extends AppCompatActivity {
         if(isPlaying)   playBtn.setImageResource(android.R.drawable.ic_media_pause);
         else            playBtn.setImageResource(android.R.drawable.ic_media_play);
     }
+
     public void setAndDispMusicName() {
         nameTxtView.setText(fileNames.get(pos));
         setTitle(fileNames.get(pos));
