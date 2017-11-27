@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.*;
 
 import java.util.ArrayList;
-import java.util.ServiceConfigurationError;
 
 /**
  * Created by Kim Chan Hyo on 2017-11-23.
@@ -90,6 +89,7 @@ public class PlayActivity extends AppCompatActivity {
         startActivity(new Intent(this, MainActivity.class));
     }
 
+
     public void onBtnClicked(View view) {
         int viewId = view.getId();
         if(viewId == R.id.backToList) {
@@ -124,6 +124,7 @@ public class PlayActivity extends AppCompatActivity {
     public void setAndDispMusicName() {
         setTitle(fileNames.get(pos));
     }
+
 
     class playTimeThread extends Thread {
         public void run() {

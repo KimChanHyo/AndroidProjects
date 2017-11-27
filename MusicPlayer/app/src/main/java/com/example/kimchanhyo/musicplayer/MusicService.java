@@ -30,13 +30,6 @@ public class MusicService extends Service {
     public void onCreate() {
         super.onCreate();
         mediaPlayer = new MediaPlayer();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                View view = new View(getApplicationContext());
-
-            }
-        });
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int started) {
