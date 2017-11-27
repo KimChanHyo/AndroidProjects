@@ -25,10 +25,14 @@ public class MainActivity extends AppCompatActivity {
     File musicDir;
     File files[] = {};
 
+    // String type path(music directory까지만)
     static public String sMusicDir;
+    // fileNames        fullPath == sMusicDir + "/" + filenames[pos]
     static public ArrayList<String> m_arList;
+
     static private ArrayAdapter<String> m_arAdapter;
     static private ListView m_musicList;
+    // 첫 화면에서 누른 pos
     static public int pos;
 
     static final private String TAG = "kchDebug : MainActivity";
@@ -64,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             prepareAccess();
         }
 
+        // m_musicList에 있는 item 클릭시 PlayActivity start
         m_musicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -99,13 +104,10 @@ public class MainActivity extends AppCompatActivity {
     // preapare access to music directory
     // set m_arList, m_arAdapter, m_musicList
     public void prepareAccess() {
+        // get : shared storage music path
         musicDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+        // get String : musicDir path
         sMusicDir = musicDir.getAbsolutePath();
-        // File 클래스에 정의된 메소드를 이용하면 디렉토리 여부, 이름, 절대경로를 알아낼 수 있다
-        // isDirectory() 메소드: File 객체가 디렉토리이면 true
-        // getName(): File 객체가 나타내는 디렉토리 혹은 파일의 이름 반환
-        // getAbsolutePath(): File 객체가 나타내는 디렉토리 혹은 파일의 절대 경로 반환
-        // listFiles(): 디렉토리에 있는 파일(디렉토리 포함)들을 나타내는 File 객체들의 배열을 반환한다
 
         int num = 0;
         try {
@@ -118,9 +120,11 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "there is no files");
 
                 for(int i = 0 ; i < num ; ++i) {
+                    // m_arList(fileNames)에 파일 이름들을 추가
                     m_arList.add(files[i].getName());
                     Log.i(TAG, "file " + (i + 1) + m_arList.get(i));
                 }
+                // m_arList로 m_arAdapter를 만들고, m_musicList에 m_arAdapterh 연결
                 m_arAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, m_arList);
                 m_musicList.setAdapter(m_arAdapter);
             }
