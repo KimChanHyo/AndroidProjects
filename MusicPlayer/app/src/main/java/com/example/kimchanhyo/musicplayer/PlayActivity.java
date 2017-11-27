@@ -26,14 +26,17 @@ public class PlayActivity extends AppCompatActivity {
     static int pos = -1;
     static boolean isPlaying = true;
 
-    TextView nameTxtView;
+    TextView playTime;
     ImageButton playBtn;
+
+    DispCurPosThread dispTime;
 
     MusicService musicService;
     boolean mBound = false;
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.d(TAG, "bind?");
             MusicService.musicBinder binder = (MusicService.musicBinder)service;
             musicService = binder.getService();
             mBound = true;
@@ -56,7 +59,7 @@ public class PlayActivity extends AppCompatActivity {
 
         pos = MainActivity.pos;
 
-        nameTxtView = findViewById(R.id.musicName);
+        playTime = findViewById(R.id.playTime);
         playBtn = findViewById(R.id.playMusic);
 
         setAndDispMusicName();
@@ -70,13 +73,16 @@ public class PlayActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MusicService.class);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
     }
-
     @Override
     protected void onStart() {
         super.onStart();
+        if(dispTime == null) {
+            dispTime = new DispCurPosThread();
+            dispTime.start();
+        }
+
         setPlayBtnImage();
     }
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -122,9 +128,30 @@ public class PlayActivity extends AppCompatActivity {
         if(isPlaying)   playBtn.setImageResource(android.R.drawable.ic_media_pause);
         else            playBtn.setImageResource(android.R.drawable.ic_media_play);
     }
-
     public void setAndDispMusicName() {
-        nameTxtView.setText(fileNames.get(pos));
         setTitle(fileNames.get(pos));
+    }
+
+    class DispCurPosThread extends Thread {
+        public void run() {
+            while(true) {
+                playTime.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        playTime.setText(toMinSec(musicService.curPos())
+                                + "    " + toMinSec(musicService.duration()));
+                    }
+                });
+                try { Thread.sleep(1000); }
+                catch (InterruptedException e) { e.printStackTrace(); }
+            }
+        }
+    }
+    public String toMinSec(int milli) {
+        int min, sec;
+        min = milli / (1000 * 60);
+        milli %= (1000 * 60);
+        sec = milli / 1000;
+        return min + ":" + sec;
     }
 }

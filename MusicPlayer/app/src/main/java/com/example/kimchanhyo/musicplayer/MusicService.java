@@ -72,7 +72,14 @@ public class MusicService extends Service {
     public boolean isPlaying() {
         return mediaPlayer.isPlaying();
     }
-
+    public int curPos() {
+        if(mediaPlayer == null) return 0;
+        else return mediaPlayer.getCurrentPosition();
+    }
+    public int duration() {
+        if(mediaPlayer == null) return 0;
+        else return mediaPlayer.getDuration();
+    }
 
 
     private void startMusic(String fullPath) {
@@ -93,6 +100,8 @@ public class MusicService extends Service {
             e.printStackTrace();
         }
         mediaPlayer.start();
+        Log.d(TAG, "current : " + mediaPlayer.getCurrentPosition());
+        Log.d(TAG, "duration : " + mediaPlayer.getDuration());
         isPause = false;
     }
 

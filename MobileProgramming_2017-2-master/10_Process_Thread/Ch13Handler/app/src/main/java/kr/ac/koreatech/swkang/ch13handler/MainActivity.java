@@ -26,7 +26,13 @@ public class MainActivity extends AppCompatActivity {
                 ++mCount;
                 // UI 갱신 작업 (TextView의 count 수 변경)을 Runnable 인터페이스의
                 // run() 함수 내에 구현하고 Handler 객체의 post 함수로 넘겨준다
-                mHandler.post(new Runnable() {
+//                mHandler.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        tv.setText("Count : " + mCount);
+//                    }
+//                });
+                tv.post(new Runnable() {
                     @Override
                     public void run() {
                         tv.setText("Count : " + mCount);
