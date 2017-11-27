@@ -1,18 +1,13 @@
 package com.example.kimchanhyo.musicplayer;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.Bundle;
-import android.os.IBinder;
+import android.content.*;
+import android.os.*;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
+import android.widget.*;
 
 import java.util.ArrayList;
+import java.util.ServiceConfigurationError;
 
 /**
  * Created by Kim Chan Hyo on 2017-11-23.
@@ -29,14 +24,13 @@ public class PlayActivity extends AppCompatActivity {
     TextView playTime;
     ImageButton playBtn;
 
-    DispCurPosThread dispTime;
+    playTimeThread dispTime;
 
     MusicService musicService;
     boolean mBound = false;
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.d(TAG, "bind?");
             MusicService.musicBinder binder = (MusicService.musicBinder)service;
             musicService = binder.getService();
             mBound = true;
@@ -50,7 +44,6 @@ public class PlayActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
@@ -77,7 +70,7 @@ public class PlayActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if(dispTime == null) {
-            dispTime = new DispCurPosThread();
+            dispTime = new playTimeThread();
             dispTime.start();
         }
 
@@ -132,14 +125,17 @@ public class PlayActivity extends AppCompatActivity {
         setTitle(fileNames.get(pos));
     }
 
-    class DispCurPosThread extends Thread {
+    class playTimeThread extends Thread {
         public void run() {
             while(true) {
                 playTime.post(new Runnable() {
                     @Override
                     public void run() {
-                        playTime.setText(toMinSec(musicService.curPos())
-                                + "    " + toMinSec(musicService.duration()));
+                        String cur = toMinSec(musicService.curPos());
+                        String duration = toMinSec(musicService.duration());
+                        playTime.setText(cur + "    " + duration);
+                        if(cur.equals(duration))
+                            findViewById(R.id.nextMusic).performClick();
                     }
                 });
                 try { Thread.sleep(1000); }

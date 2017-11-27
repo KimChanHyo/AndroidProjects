@@ -1,15 +1,10 @@
 package com.example.kimchanhyo.musicplayer;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.Service;
-import android.content.Context;
-import android.content.Intent;
+import android.app.*;
+import android.content.*;
 import android.media.MediaPlayer;
-import android.os.Binder;
-import android.os.IBinder;
-import android.util.Log;
+import android.os.*;
+import android.view.View;
 
 import java.io.IOException;
 
@@ -35,6 +30,13 @@ public class MusicService extends Service {
     public void onCreate() {
         super.onCreate();
         mediaPlayer = new MediaPlayer();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                View view = new View(getApplicationContext());
+
+            }
+        });
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int started) {
@@ -82,6 +84,7 @@ public class MusicService extends Service {
     }
 
 
+
     private void startMusic(String fullPath) {
         if(mediaPlayer.isPlaying() || isPause) return;
         newMusic(fullPath);
@@ -100,8 +103,6 @@ public class MusicService extends Service {
             e.printStackTrace();
         }
         mediaPlayer.start();
-        Log.d(TAG, "current : " + mediaPlayer.getCurrentPosition());
-        Log.d(TAG, "duration : " + mediaPlayer.getDuration());
         isPause = false;
     }
 
