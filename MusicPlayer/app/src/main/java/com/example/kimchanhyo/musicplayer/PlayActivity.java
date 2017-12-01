@@ -3,6 +3,7 @@ package com.example.kimchanhyo.musicplayer;
 import android.content.*;
 import android.os.*;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
@@ -32,7 +33,7 @@ public class PlayActivity extends AppCompatActivity {
     playTimeThread dispTime;
 
     // binding service를 위한 MusicService
-    MusicService musicService;
+    MusicService musicService = null;
     boolean mBound = false;
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
@@ -50,6 +51,7 @@ public class PlayActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
@@ -75,7 +77,6 @@ public class PlayActivity extends AppCompatActivity {
         serviceIntent.putExtra("fullPath", getFullPath());
         serviceIntent.putExtra("fileName", fileNames.get(pos));
         startService(serviceIntent);
-        isPlaying = true;
 
         // service bind
         Intent intent = new Intent(this, MusicService.class);
@@ -83,6 +84,7 @@ public class PlayActivity extends AppCompatActivity {
     }
     @Override
     protected void onStart() {
+        Log.d(TAG, "onStart");
         super.onStart();
         // 시간 표시 thread start
         if(dispTime == null) {
@@ -127,7 +129,6 @@ public class PlayActivity extends AppCompatActivity {
         // isPlaying() 메소드를 이용하여 isPlaying 변수값을 갱신해주고, 알맞은 button image로 설정해준다.
         else if(viewId == R.id.playMusic) {
             musicService.playOrPauseMusic(getFullPath());
-            isPlaying = musicService.isPlaying();
             setPlayBtnImage();
         }
         // prevMusic && nextMusic, use bound service
@@ -140,7 +141,6 @@ public class PlayActivity extends AppCompatActivity {
             else    MainActivity.pos = pos = (pos + 1) % fileNames.size();
             musicService.prevOrNextMusic(getFullPath());
             musicService.updateNofi(fileNames.get(pos));
-            isPlaying = true;
             setAndDispMusicName();
             setPlayBtnImage();
         }
@@ -169,6 +169,7 @@ public class PlayActivity extends AppCompatActivity {
                     public void run() {
                         String cur = toMinSec(musicService.curPos());
                         String duration = toMinSec(musicService.duration());
+                        Log.d(TAG, "\t" + duration);
                         playTime.setText(cur + "    " + duration);
                         if(cur.equals(duration))
                             findViewById(R.id.nextMusic).performClick();

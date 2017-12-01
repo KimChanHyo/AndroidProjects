@@ -52,10 +52,12 @@ public class MusicService extends Service {
     public void playOrPauseMusic(String fullPath) {
         if(mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
+            PlayActivity.isPlaying = false;
             isPause = true;
         }
         else {
             mediaPlayer.start();
+            PlayActivity.isPlaying = true;
             isPause = false;
         }
     }
@@ -71,9 +73,6 @@ public class MusicService extends Service {
     public void updateNofi(String fileName) {
         ((NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE))
                 .notify(fgId, buildNoti(fileName));
-    }
-    public boolean isPlaying() {
-        return mediaPlayer.isPlaying();
     }
     // timeDispThread에서 쓰이는 메소드
     public int curPos() {
@@ -111,6 +110,7 @@ public class MusicService extends Service {
             e.printStackTrace();
         }
         mediaPlayer.start();
+        PlayActivity.isPlaying = true;
         isPause = false;
     }
 
