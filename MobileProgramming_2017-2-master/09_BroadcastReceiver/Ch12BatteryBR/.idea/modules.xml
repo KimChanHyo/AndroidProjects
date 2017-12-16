@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Ch12BatteryBR.iml" filepath="$PROJECT_DIR$/Ch12BatteryBR.iml" />
+      <module fileurl="file://D:\AndroidProjects\MobileProgramming_2017-2-master\09_BroadcastReceiver\Ch12BatteryBR\Ch12BatteryBR.iml" filepath="D:\AndroidProjects\MobileProgramming_2017-2-master\09_BroadcastReceiver\Ch12BatteryBR\Ch12BatteryBR.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\AndroidProjects\MobileProgramming_2017-2-master\09_BroadcastReceiver\Ch12BatteryBR\app\app.iml" filepath="D:\AndroidProjects\MobileProgramming_2017-2-master\09_BroadcastReceiver\Ch12BatteryBR\app\app.iml" />
     </modules>
   </component>
 </project>
